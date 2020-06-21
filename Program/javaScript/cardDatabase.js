@@ -55,25 +55,40 @@ function calculateTaskValue() {
 //Creating objects that contain each list elements information in the correct
 //corresponding order based on times
 function createEntryObject(taskText, timeText, rowNumber, rowScores) {
-  let entry = {};
-  entry.taskText;
-  entry.timeText;
-  entry.rowNumber;
-  entry.rowScores;
+  const entry = {};
+  entry.taskText = taskText;
+  entry.timeText = timeText;
+  entry.rowNumber = rowNumber;
+  entry.rowScores = rowScores;
 
+  console.log("CreateEntryObject Function Called");
   return entry;
 }
 
 function createFinalList(taskText, timeText, rowScores) {
 
-  console.log(taskText, "-what is this");
-  console.log(timeText, "-what is this");
-  console.log(rowScores, "-what is this");
   //"i" is row number
   for (let i = 0; i < currentTasks.length; i++) {
     let currentEntry = createEntryObject(taskText[i], timeText[i], i, rowScores[i]);
     finalList[i] = currentEntry;
   }
+
+  sortList(finalList); //sort FinalList
+  console.log("CreateFinaList Function called");
+}
+
+//Sorts the final list for printing so they are in order based on variable
+//"matchingTimes"
+function sortList(objectList) {
+
+  objectList.sort((a,b) => {
+
+      if (b.rowScores > a.rowScores) {
+        return -1;
+      } else {
+        return 1;
+      }
+});
 
 
 }

@@ -27,7 +27,7 @@ function addRow(taskText, timeText, rowNumberInput) {
   let row = table.insertRow(-1);
   let rowNumberId = `rowNumber${rowNumberInput}`;
   row.setAttribute('id', rowNumberId); //dynamically set ID
-                                       // to match row number
+                                       //to match row number
 
   let cell1 = row.insertCell(0);
   cell1.innerHTML = taskText;
@@ -38,10 +38,6 @@ function addRow(taskText, timeText, rowNumberInput) {
   cell2.innerHTML += '<button class="deleteButton"> Delete </button>';
 
   deleteButton = document.querySelectorAll('.deleteButton');
-
-  //recalculate task value of new positions
-  taskScores = calculateTaskValue();
-
 }
 
 //track events
@@ -63,10 +59,16 @@ enter.addEventListener('click', () => {
 
   matchingTimes[currentRow] = `${timeInput1.value}`; //stores beginning timeout
 
+  //recalculate task value of new positions -------------->
+  taskScores = calculateTaskValue();
+
+  //Final list created and ordered for printing to page
+  createFinalList(currentTasks, currentTimes, taskScores);
+
   //print rows
   for (let i = 0; i <= currentRow; i++) {
 
-      addRow(currentTasks[i], currentTimes[i], i); //last i is row number
+      addRow(finalList[i].taskText, finalList[i].timeText, i); //last i is row number
 
   }
 
