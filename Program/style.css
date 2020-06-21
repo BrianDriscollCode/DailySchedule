@@ -1,0 +1,95 @@
+#mainAppBox {
+  background-color: #D2EBCC;
+  border-radius: 25px;
+  box-shadow: 2px 3px #99AB95;
+  width: 35%;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 10px;
+}
+
+body {
+  background-color: #FCFFFD;
+}
+
+/*input labels*/
+
+#inputSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+/* inputs and enter button */
+
+.allInputs {
+  height: 20px;
+  margin-top:2.5%;
+}
+
+#input1 {
+  width: 40%
+}
+
+#input2 {
+  width: 10%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
+#enter {
+  width: 40%;
+  height: 30px;;
+}
+
+/* Schedule Table */
+
+#scheduleContainer {
+  border: 1px solid;
+  border-radius: 20px;
+  margin: 20px 10px 20px 10px;
+  background-color: #DEF7D7;
+}
+
+table {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+table, th, td {
+  border: 1px solid #000;
+
+}
+
+tr {
+  margin-top: 5px;
+}
+
+#timeSection {
+  padding-left: 20px;
+}
+
+.deleteButton {
+  margin-left: 30%;
+  display: none;
+}
