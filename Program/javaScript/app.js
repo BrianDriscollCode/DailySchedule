@@ -11,35 +11,6 @@ let deleteButton = document.querySelectorAll('#button');
 
 let currentRow = 0; //track amount of rows
 
-//Removes all Rows to be reprinted after new entry occurs
-function removeAllRows() {
-  let allRows = document.querySelectorAll('TR');
-
-  for (let i = 1; i < allRows.length; i++) {
-    allRows[i].remove();
-  }
-}
-
-//Add row based on input used by "ENTER" button when clicked
-function addRow(taskText, timeText, rowNumberInput) {
-
-  //insert at the last postion
-  let row = table.insertRow(-1);
-  let rowNumberId = `rowNumber${rowNumberInput}`;
-  row.setAttribute('id', rowNumberId); //dynamically set ID
-                                       //to match row number
-
-  let cell1 = row.insertCell(0);
-  cell1.innerHTML = taskText;
-
-  let cell2 = row.insertCell(1);
-  cell2.setAttribute('id', 'timeSection');
-  cell2.innerHTML = timeText;
-  cell2.innerHTML += '<button class="deleteButton"> Delete </button>';
-
-  deleteButton = document.querySelectorAll('.deleteButton');
-}
-
 //track events
 document.addEventListener('click', (event) => {
   console.log(event.target);
@@ -48,31 +19,38 @@ document.addEventListener('click', (event) => {
 //take input and call addRow function to add a row
 enter.addEventListener('click', () => {
 
-  //Remove all rows so they can be reprinter in order depending on starting time
-  removeAllRows();
 
-  let taskText = input1.value;
-  currentTasks[currentRow] = taskText;
+  if (timeEntryError(timeInput1.value, timeInput2.value) == false) {
+    alert("Times start 3am and end at 2am. Please enter in times in the correct order.");
+  } else {
+    //Remove all rows so they can be reprinter in order depending on starting time
+    removeAllRows();
 
-  let timeText = `${timeInput1.value} - ${timeInput2.value}`;
-  currentTimes[currentRow] = timeText;
+    let taskText = input1.value;
+    currentTasks[currentRow] = taskText;
 
-  matchingTimes[currentRow] = `${timeInput1.value}`; //stores beginning timeout
+    let timeText = `${timeInput1.value} - ${timeInput2.value}`;
+    currentTimes[currentRow] = timeText;
 
-  //recalculate task value of new positions -------------->
-  taskScores = calculateTaskValue();
+    startingTimes[currentRow] = `${timeInput1.value}`;
+    endingTimes[currentRow] = `${timeInput2.value}`;
 
-  //Final list created and ordered for printing to page
-  createFinalList(currentTasks, currentTimes, taskScores);
+    //recalculate task value of new positions -------------->
+    taskScores = calculateTaskValue();
+    console.log(taskScores);
 
-  //print rows
-  for (let i = 0; i <= currentRow; i++) {
+    //Final list created and ordered for printing to page
+    createFinalList(currentTasks, currentTimes, taskScores); //objects created
 
-      addRow(finalList[i].taskText, finalList[i].timeText, i); //last i is row number
+    //print rows
+    for (let i = 0; i <= currentRow; i++) {
 
+        addRow(finalList[i].taskText, finalList[i].timeText, i); //last i is row number
+
+    }
+
+    currentRow += 1;
   }
-
-  currentRow += 1;
 });
 
 
@@ -108,10 +86,12 @@ table.addEventListener('click', (event) => {
 
 
     //Deletes Row information from arrays "currentTasks" and "currentTimes
-    //AND "matchingTimes"located in cardDatabase.js
+    //AND "startingTimes", "finalList", and "endingTimes" in cardDatabase.js
     currentTasks.splice(rowNumber, 1);
     currentTimes.splice(rowNumber, 1);
-    matchingTimes.splice(rowNumber, 1);
+    startingTimes.splice(rowNumber, 1);
+    endingTimes.splice(rowNumber, 1);
+    finalList.splice(rowNumber, 1);
 
     //removes the elements from document
     chosenDataElement1.remove();

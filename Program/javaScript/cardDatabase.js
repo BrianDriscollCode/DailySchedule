@@ -34,22 +34,67 @@ const allTimeValues = ['3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am',
 //Tracks entry information for reprinting and basic storage and manipulation
 let currentTasks = [];
 let currentTimes = [];
-let matchingTimes = []; // STORES ONLY the value from timeInput1 and not timeInput2
+let startingTimes = []; // STORES ONLY the value from timeInput1 and not timeInput2
                         // so that we can calculate this positions value
+let endingTimes = []; //Stores input ONLY from timeInput 2
 
 //Create scores and rearrange the list inputs based on the scores
 let taskScores = [];
 //Final array used for printing
 let finalList = []
 
+//Removes all Rows to be reprinted after new entry occurs
+function removeAllRows() {
+  let allRows = document.querySelectorAll('TR');
+
+  for (let i = 1; i < allRows.length; i++) {
+    allRows[i].remove();
+  }
+}
+
+//Add row based on input used by "ENTER" button when clicked
+function addRow(taskText, timeText, rowNumberInput) {
+
+  //insert at the last postion
+  let row = table.insertRow(-1);
+  let rowNumberId = `rowNumber${rowNumberInput}`;
+  row.setAttribute('id', rowNumberId); //dynamically set ID
+                                       //to match row number
+
+  let cell1 = row.insertCell(0);
+  cell1.innerHTML = taskText;
+
+  let cell2 = row.insertCell(1);
+  cell2.setAttribute('id', 'timeSection');
+  cell2.innerHTML = timeText;
+  cell2.innerHTML += '<button class="deleteButton"> Delete </button>';
+
+  deleteButton = document.querySelectorAll('.deleteButton');
+}
+
 function calculateTaskValue() {
   let convertedValues = [];
 
-  for (let i = 0; i < matchingTimes.length; i++) {
-    convertedValues[i] = scheduleTimeValues[matchingTimes[i]];
+  for (let i = 0; i < startingTimes.length; i++) {
+    convertedValues[i] = scheduleTimeValues[startingTimes[i]];
   }
 
   return convertedValues;
+}
+
+function timeEntryError(startTime, endTime) {
+
+  let check = true;
+
+  let startValue = scheduleTimeValues[startTime];
+  let endValue = scheduleTimeValues[endTime];
+
+  if (startValue < endValue) {
+    return check;
+  } else {
+    check = false;
+    return check;
+  }
 }
 
 //Creating objects that contain each list elements information in the correct
@@ -92,35 +137,18 @@ function sortList(objectList) {
 
 
 }
-// function calculateTaskValue() {
-//
-//   let
-//
-//   for (let i = 0; matchingTimes.length; i++) {
-//
-//     let currentTimeValue = matchingTimes[i];
-//
-//     for (let n = 0; i < allTimeValues.length; i++) {
-//
-//         if (currentTimeValue == allTimeValues[i]) {
-//
-//         }
-//
-//     }
-//
-//   }
-//
+
+// //
+// function returnRowItemLength() {
+//   return Object.keys(currentTasks).length;
 // }
 
+function printAllArrays() {
+  console.log(currentTimes, "-currentTimes (NOT ORDERED)");
+  console.log(currentTasks, "-currentTasks (NOT ORDERED)");
+  console.log(startingTimes, "startingTimes (NOT ORDERED)");
+  console.log(endingTimes, "endingTimes (NOT ORDERED)");
+  console.log(taskScores, "taskScores (NOT ORDERED)");
+  console.log(finalList, "finalList");
 
-//Measure how long the full string is (9 or 10 or 11)
-// Then with if statements, decide whether or not I choose 0-3 or 0-4
-
-
-
-//WILL calculate value of the entry to then reorganize based on times
-
-//For tracking length of list to add dynamic ID's
-function returnRowItemLength() {
-  return Object.keys(currentTasks).length;
 }
