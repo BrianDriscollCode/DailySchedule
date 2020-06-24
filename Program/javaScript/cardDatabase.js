@@ -82,21 +82,6 @@ function calculateTaskValue() {
   return convertedValues;
 }
 
-function timeEntryError(startTime, endTime) {
-
-  let check = true;
-
-  let startValue = scheduleTimeValues[startTime];
-  let endValue = scheduleTimeValues[endTime];
-
-  if (startValue < endValue) {
-    return check;
-  } else {
-    check = false;
-    return check;
-  }
-}
-
 //Creating objects that contain each list elements information in the correct
 //corresponding order based on times
 function createEntryObject(taskText, timeText, rowNumber, rowScores) {
@@ -137,6 +122,41 @@ function sortList(objectList) {
 
 
 }
+
+function timeEntryError(startTime, endTime) {
+
+  let check = true;
+
+  let startValue = scheduleTimeValues[startTime];
+  let endValue = scheduleTimeValues[endTime];
+
+  if (startValue < endValue) {
+    return check;
+  } else {
+    check = false;
+    return check;
+  }
+}
+
+function timeOverlappingError(startTime, endTime) {
+
+  let check = true;
+
+  let startValue = scheduleTimeValues[startTime];
+  let endValue = scheduleTimeValues[endTime];
+
+  //create for loop that iterates between the two values. Example:
+  // 3am = 0 & 8am = 5
+  // iterate 0  - 5
+  // store numbers 1, 2, 3, 4, 5 into array
+  // check array against current inputed times and if any of them match
+  // the stored numbers, there is errors and user needs to prompted
+  // !EXCEPTION! if the end time of stored numbers matches the startTime
+  // then that is okay. Why? End time of 1st task is 5am. Start time of 2nd
+  // task is 5am. That works.
+
+}
+
 
 // //
 // function returnRowItemLength() {

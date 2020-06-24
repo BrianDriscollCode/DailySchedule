@@ -7,6 +7,7 @@ const enter = document.getElementsByTagName('BUTTON')[0];
 // const buttonLocation = document.querySelectorAll('.timePosition');
 const table = document.getElementById('scheduleTable');
 const timeSection = document.querySelectorAll('#timeSection');
+const inputSection = document.querySelector('#inputSection');
 let deleteButton = document.querySelectorAll('#button');
 
 let currentRow = 0; //track amount of rows
@@ -21,9 +22,11 @@ enter.addEventListener('click', () => {
 
 
   if (timeEntryError(timeInput1.value, timeInput2.value) == false) {
+    timeInput2.style.backgroundColor = "red"; //mark error location
     alert("Times start 3am and end at 2am. Please enter in times in the correct order.");
   } else {
     //Remove all rows so they can be reprinter in order depending on starting time
+    timeInput2.style.backgroundColor = "white"; //rectify error location if needed
     removeAllRows();
 
     let taskText = input1.value;
