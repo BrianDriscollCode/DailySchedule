@@ -32,3 +32,9 @@ PRIORITY - Create objects to use for printing and reordering the list
   C. Write basic algorithm to rearrange based off ranked values.
   D. Reprint these values corresponding with new positions.
 2. Sort array based on those values.
+
+
+***BIG FIX - FIX UPDATING THE FINALLIST ARRAY - Still doesn't delete right element***
+
+Delete button doesn't update correctly but when entering new element, list updates
+accordingly.

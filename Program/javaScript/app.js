@@ -83,15 +83,37 @@ table.addEventListener('click', (event) => {
 
     let rowNumber = elementId.slice(9,10); //use row ID to get row Number
     rowNumber = parseInt(rowNumber); // then convert it to integer
+    console.log(rowNumber, "-rowNumber");
+
+    //at this element.rowNumber, put value here
+    //in a for loop, compare value of these strings to see
+    // if they match. *format array information to match output
+    // of .textContent from elements.*
+    //format JOB6am - 11am Delete
+
+
+    let elementText = chosenDataElement2.textContent; //get element text
+    let rowFinder; //used to find exact position for unordered arrays for deletion
+    console.log(elementText);
+
+    //format the arraytext and see if any positon matches current element being deleted
+    for (let i = 0; i < currentTasks.length; i++) {
+      let arrayText = `${currentTasks[i]}${currentTimes[i]} Delete`;
+
+      if (elementText.substring(0, arrayText.length) == arrayText) {
+        rowFinder = i;
+        break;
+      }
+    }
 
 
     //Deletes Row information from arrays "currentTasks" and "currentTimes
     //AND "startingTimes", "finalList", and "endingTimes" in cardDatabase.js
-    currentTasks.splice(rowNumber, 1);
-    currentTimes.splice(rowNumber, 1);
-    startingTimes.splice(rowNumber, 1);
-    endingTimes.splice(rowNumber, 1);
-    finalList.splice(rowNumber, 1);
+    currentTasks.splice(rowFinder, 1);
+    currentTimes.splice(rowFinder, 1);
+    startingTimes.splice(rowFinder, 1);
+    endingTimes.splice(rowFinder, 1);
+    finalList.splice(rowNumber, 1); // FIX THIS
 
     //removes the elements from document
     chosenDataElement1.remove();
@@ -103,7 +125,8 @@ table.addEventListener('click', (event) => {
     //Reset ID's for elements left
     for (let i = 1; i < currentTasks.length + 1; i++) {
       let listItems = document.getElementsByTagName('TR')[i];
-      let iStringValue = i.toString();
+      let iStringValue = i - 1;
+      iStringValue = iStringValue.toString();
       let idName = `rowNumber${iStringValue}`;
 
       listItems.setAttribute('id', idName);
