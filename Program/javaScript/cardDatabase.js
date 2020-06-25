@@ -138,22 +138,62 @@ function timeEntryError(startTime, endTime) {
   }
 }
 
-function timeOverlappingError(startTime, endTime) {
+//checks for overlapping times when user enters in a new task
+function timeOverLappingError(startTime, endTime) {
 
   let check = true;
+  let usedTimes = [];
+  let counter = 0;
 
   let startValue = scheduleTimeValues[startTime];
   let endValue = scheduleTimeValues[endTime];
 
-  //create for loop that iterates between the two values. Example:
-  // 3am = 0 & 8am = 5
-  // iterate 0  - 5
-  // store numbers 1, 2, 3, 4, 5 into array
-  // check array against current inputed times and if any of them match
-  // the stored numbers, there is errors and user needs to prompted
+  //Counts from startValue to endValue and adds all of these to array "usedTimes"
+  while (startValue <= endValue) {
+    usedTimes[counter] = startValue;
+
+    startValue += 1;
+    counter += 1; // iterates through array
+  }
+
+  for (let i = 0; i < startingTimes.length; i++) {
+
+    //retrieve current times on the table and their scores
+    let comparativeStartingValue = scheduleTimeValues[startingTimes[i]];
+    let comparativeEndingValue = scheduleTimeValues[endingTimes[i]];
+
+    console.log(comparativeStartingValue);
+    console.log(comparativeEndingValue);
+
+    let tableUsedTimes = [];
+
+    //Creating array for time on table
+    counter = 0;
+    while (comparativeStartingValue <= comparativeEndingValue) {
+      tableUsedTimes[counter] = comparativeStartingValue;
+
+      comparativeStartingValue += 1;
+      counter += 1; // iterates through array
+    }
+
+    //compare usedTimes (entered in by user just now) to tableUsedTimes (previously entered beforehand) and check FALSE if any matches are found
+    let arrayComparisonTest = usedTimes.some(r=> tableUsedTimes.indexOf(r) >= 0);
+
+    if (arrayComparisonTest == true) {
+      let check = false;
+
+      //!EXCEPTION! if the end time of stored numbers matches the startTime, that's okay
+
+      return check;
+      break;
+    }
+
+  }
+  return check;
   // !EXCEPTION! if the end time of stored numbers matches the startTime
   // then that is okay. Why? End time of 1st task is 5am. Start time of 2nd
   // task is 5am. That works.
+  //in app.js, use else if (timeOverLappingError == false) to start error
 
 }
 

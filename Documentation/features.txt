@@ -2,39 +2,18 @@ Daily schedule app
 
 1. Enter in task and time (am/pm) - CHECK
 2. Tasks color coded by type
-3. Cancel tasks
-4. Tasks listed (simply)
+3. Cancel tasks - CHECK
+4. Tasks listed (simply) - CHECK
 
-Advanced Tasks:
+Tasks:
+1. Error check times for no duplicates
+2. Error check times for no in between times
+3. Choose task type and color code it
+4. Mark task as complete (not just delete)
 5. Shows each task by timeframe
 
-NEXT TASK:
 
-1. Figure out how to only add 1 exit button (maybe have already and set to
-"hide" and then on mouseout delete it.)
-2. Order list based on times.
+Current task:
 
-
-
-
-
-
-Ordering list on times
-
-Now the arrays dynamically adjust based on table. Time to sort the table based
-on time values.
-
-PRIORITY - Create objects to use for printing and reordering the list
-
-1. Need to determine value based on start time
-  A. Extract the starting time value (with am or pm)
-  B. Determine the schedule time value based off the string (ex: 3am, 6am, 7pm, etc)
-  C. Write basic algorithm to rearrange based off ranked values.
-  D. Reprint these values corresponding with new positions.
-2. Sort array based on those values.
-
-
-***BIG FIX - FIX UPDATING THE FINALLIST ARRAY - Still doesn't delete right element***
-
-Delete button doesn't update correctly but when entering new element, list updates
-accordingly.
+Error check works with values already inputed. Get it to work with no values
+(the first input on an empty list) otherwise function returns undefined.

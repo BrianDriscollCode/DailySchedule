@@ -16,18 +16,26 @@ let currentRow = 0; //track amount of rows
 document.addEventListener('click', (event) => {
   console.log(event.target);
 });
+window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+});
 
 //take input and call addRow function to add a row
 enter.addEventListener('click', () => {
 
-
   if (timeEntryError(timeInput1.value, timeInput2.value) == false) {
     timeInput2.style.backgroundColor = "red"; //mark error location
     alert("Times start 3am and end at 2am. Please enter in times in the correct order.");
-  } else {
-    //Remove all rows so they can be reprinter in order depending on starting time
+  }
+  else if (timeOverLappingError(timeInput1.value, timeInput2.value) == false) {
+    timeInput1.style.backgroundColor = "red";
+    timeInput2.style.backgroundColor = "red";
+    alert("Times chosen are overlapping and need to be changed");
+  }
+  else {
+    timeInput1.style.backgroundColor = "white";
     timeInput2.style.backgroundColor = "white"; //rectify error location if needed
-    removeAllRows();
+    removeAllRows(); //Remove all rows so they can be reprinted in order depending on starting time
 
     let taskText = input1.value;
     currentTasks[currentRow] = taskText;
