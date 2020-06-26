@@ -15,5 +15,4 @@ Tasks:
 
 Current task:
 
-Error check works with values already inputed. Get it to work with no values
-(the first input on an empty list) otherwise function returns undefined.
+Add cross off functionality
