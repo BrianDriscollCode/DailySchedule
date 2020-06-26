@@ -123,6 +123,7 @@ function sortList(objectList) {
 
 }
 
+//start value has to be before end value or error occurs
 function timeEntryError(startTime, endTime) {
 
   let check = true;
@@ -138,17 +139,21 @@ function timeEntryError(startTime, endTime) {
   }
 }
 
-//checks for overlapping times when user enters in a new task
+//checks for overlapping times when user enters in a new task, disallow repeats
 function timeOverLappingError(startTime, endTime) {
 
-  let check = true;
+  let check = true; //when false, run error
   let usedTimes = [];
   let counter = 0;
+  let popOccured = false; //track if array has pop and shift occurence to prevent
+                          // double pops and shifts
 
+  //get new input values from user and find their scores (i.e. 0-23)
   let startValue = scheduleTimeValues[startTime];
   let endValue = scheduleTimeValues[endTime];
 
   //Counts from startValue to endValue and adds all of these to array "usedTimes"
+  //example [4,7] makes [4,5,6,7]
   while (startValue <= endValue) {
     usedTimes[counter] = startValue;
 
@@ -156,45 +161,79 @@ function timeOverLappingError(startTime, endTime) {
     counter += 1; // iterates through array
   }
 
+  //Don't compare Starting and Ending Value with arrays larger than 2
+  // So you can have times like 7am-8am, 8am-9pm without creating an error
+  if (usedTimes.length > 2) {
+    usedTimes.pop();
+    usedTimes.shift();
+    popOccured = true;
+  }
+
+  //generate values for existing values in table and check against userInput
   for (let i = 0; i < startingTimes.length; i++) {
 
-    //retrieve current times on the table and their scores
-    let comparativeStartingValue = scheduleTimeValues[startingTimes[i]];
-    let comparativeEndingValue = scheduleTimeValues[endingTimes[i]];
+        //retrieve current times on the table and their scores
+        let comparativeStartingValue = scheduleTimeValues[startingTimes[i]];
+        let comparativeEndingValue = scheduleTimeValues[endingTimes[i]];
 
-    console.log(comparativeStartingValue);
-    console.log(comparativeEndingValue);
+        // console.log(comparativeStartingValue, "-compareStart");
+        // console.log(comparativeEndingValue, "-compareEnd");
 
-    let tableUsedTimes = [];
+        let tableUsedTimes = []; //existing values array
 
-    //Creating array for time on table
-    counter = 0;
-    while (comparativeStartingValue <= comparativeEndingValue) {
-      tableUsedTimes[counter] = comparativeStartingValue;
+        //Create array for existing values
+        counter = 0;
+        while (comparativeStartingValue <= comparativeEndingValue) {
+              tableUsedTimes[counter] = comparativeStartingValue;
 
-      comparativeStartingValue += 1;
-      counter += 1; // iterates through array
-    }
+              comparativeStartingValue += 1;
+              counter += 1;
+        }
 
-    //compare usedTimes (entered in by user just now) to tableUsedTimes (previously entered beforehand) and check FALSE if any matches are found
-    let arrayComparisonTest = usedTimes.some(r=> tableUsedTimes.indexOf(r) >= 0);
+        //if both arrays "usedTimes" and "tableUsedTimes" have only 2 values each,
+        //then compare to see if they are the same.
+        let total1 = 0;
+        let total2 = 0;
+        if (usedTimes.length == 2 && tableUsedTimes.length == 2) { //start of encapsulating if statement
+          //generate total number from arrays to compare
+          for (let i = 0; i < usedTimes.length; i++) {
+            total1 += usedTimes[i];
+            total2 += tableUsedTimes[i];
+          }
+          // console.log(total1, '-total1');
+          //Create error if they are the same
+          if (total1 == total2) {
+            let check = false;
+            // console.log('--double CHECK--');
+            return check;
+          }
 
-    if (arrayComparisonTest == true) {
-      let check = false;
+        } //End of encapsulating if statement
 
-      //!EXCEPTION! if the end time of stored numbers matches the startTime, that's okay
+        //Only compare to middle values of existing table values when user's
+        //creates an array (usedTimes) that only has 2 values (i.e [7,8])
+        //allows for new input in between 2 tasks when there is only 1 hour of space
+        if (usedTimes.length == 2 && popOccured == false) {
+          tableUsedTimes.pop();
+          tableUsedTimes.shift();
+        }
 
-      return check;
-      break;
-    }
+        console.log(usedTimes, "-new");
+        console.log(tableUsedTimes, "-current");
+        //compare usedTimes (entered in by user just now) to tableUsedTimes (previously entered beforehand) and check FALSE if any matches are found
+        let arrayComparisonTest = usedTimes.some(r=> tableUsedTimes.indexOf(r) >= 0);
+        console.log('-comparison test active')
 
+        //basic check for values in between that covers most cases
+        if (arrayComparisonTest == true) {
+              let check = false;
+
+              console.log('--normal CHECK--');
+              return check;
+              break;
+        }
   }
-  return check;
-  // !EXCEPTION! if the end time of stored numbers matches the startTime
-  // then that is okay. Why? End time of 1st task is 5am. Start time of 2nd
-  // task is 5am. That works.
-  //in app.js, use else if (timeOverLappingError == false) to start error
-
+  return check; //all is good!
 }
 
 
