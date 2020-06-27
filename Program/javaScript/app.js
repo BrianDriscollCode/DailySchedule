@@ -5,7 +5,7 @@ const enter = document.getElementsByTagName('BUTTON')[0];
 const table = document.getElementById('scheduleTable');
 const timeSection = document.querySelectorAll('#timeSection');
 const inputSection = document.querySelector('#inputSection');
-let deleteButton = document.querySelectorAll('#button');
+
 
 let currentRow = 0; //track amount of rows
 
@@ -121,9 +121,9 @@ table.addEventListener('click', (event) => {
 
     for (let i = 1; i < currentTasks.length + 1; i++) {
       let listItems = document.getElementsByTagName('TR')[i];
-      let iStringValue = i - 1;
-      iStringValue = iStringValue.toString();
-      let idName = `rowNumber${iStringValue}`;
+      let newStringValue = i - 1;
+      newStringValue = newStringValue.toString();
+      let idName = `rowNumber${newStringValue}`;
 
       listItems.setAttribute('id', idName);
     }
