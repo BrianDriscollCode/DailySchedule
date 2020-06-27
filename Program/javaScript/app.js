@@ -5,6 +5,8 @@ const enter = document.getElementsByTagName('BUTTON')[0];
 const table = document.getElementById('scheduleTable');
 const timeSection = document.querySelectorAll('#timeSection');
 const inputSection = document.querySelector('#inputSection');
+let deleteButton;
+let finishTaskButton;
 
 
 let currentRow = 0; //track amount of rows
@@ -56,28 +58,26 @@ enter.addEventListener('click', () => {
 
     }
 
+    deleteButton = document.querySelectorAll('.deleteButton');
+    finishTaskButton = document.querySelectorAll('.finishTaskButton');
+
     currentRow += 1;
   }
 });
 
 
-//Reveal Delete Button on mouseenter
-table.addEventListener('mouseenter', () => {
 
+//Delete Button Functonality
+table.addEventListener('mouseenter', () => {
     for (let i = 0; i < deleteButton.length; i++) {
       deleteButton[i].style.display = 'inline';
     }
-
-
 });
 
-//Hide Delete Button on mouseleave
 table.addEventListener('mouseleave', () => {
-
   for (let i = 0; i < deleteButton.length; i++) {
     deleteButton[i].style.display = 'none';
   }
-
 });
 
 //When clicking delete button delete row
@@ -88,17 +88,16 @@ table.addEventListener('click', (event) => {
     let chosenDataElement2 = event.target.parentNode.parentNode;
 
     let elementId = chosenDataElement2.id; //get id of row being deleted
+
     let rowNumber = elementId.slice(9,10); //use row ID to get rowNumber
     rowNumber = parseInt(rowNumber);
-    console.log(rowNumber, "-rowNumber");
 
     let elementText = chosenDataElement2.textContent;
     let rowFinder; //used to find exact position for unordered arrays for deletion
-    console.log(elementText);
 
     //format the arraytext and see if any positon matches current element being deleted
     for (let i = 0; i < currentTasks.length; i++) {
-      let arrayText = `${currentTasks[i]}${currentTimes[i]} Delete`;
+      let arrayText = `${currentTasks[i]}${currentTimes[i]} Finished  Delete`;
 
       if (elementText.substring(0, arrayText.length) == arrayText) {
         rowFinder = i;
@@ -106,7 +105,8 @@ table.addEventListener('click', (event) => {
       }
     }
 
-    //Deletes Row information from arrays in cardDatabase.js
+    //Deletes Row information from arrays in appFunctionality.js
+    console.log(rowFinder, "-rowFINDER");
     currentTasks.splice(rowFinder, 1);
     currentTimes.splice(rowFinder, 1);
     startingTime.splice(rowFinder, 1);
@@ -130,6 +130,40 @@ table.addEventListener('click', (event) => {
 
     //recalculate task value of new positions
     taskScores = calculateTaskPosition();
+  }
+
+});
+
+//FinishTaskButton functionality
+table.addEventListener('mouseenter', () => {
+
+  for (let i = 0; i < finishTaskButton.length; i++) {
+    finishTaskButton[i].style.display = 'inline';
+  }
+
+});
+
+table.addEventListener('mouseleave', () => {
+
+  for (let i = 0; i < finishTaskButton.length; i++) {
+    finishTaskButton[i].style.display = 'none';
+  }
+
+});
+
+table.addEventListener('click', () => {
+
+  if (event.target.className == 'finishTaskButton') {
+    let chosenDataElement1 = event.target.parentNode;
+    let chosenDataElement2 = event.target.parentNode.parentNode;
+
+    chosenDataElement1.style.backgroundColor = '#677364';
+    chosenDataElement2.style.backgroundColor = '#677364';
+
+    chosenDataElement1.style.textDecoration = 'line-through';
+    chosenDataElement2.style.textDecoration = 'line-through';
+
+
   }
 
 });

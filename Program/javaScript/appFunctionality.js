@@ -55,9 +55,17 @@ function printRow(taskText, timeText, rowNumberInput) {
   let cell2 = row.insertCell(1);
   cell2.setAttribute('id', 'timeSection');
   cell2.innerHTML = timeText;
+
+  cell2.innerHTML += '<button class="finishTaskButton"> Finished </button>';
   cell2.innerHTML += '<button class="deleteButton"> Delete </button>';
 
-  deleteButton = document.querySelectorAll('.deleteButton');
+
+
+
+
+
+
+
 }
 
 function calculateTaskPosition() {

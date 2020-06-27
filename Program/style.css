@@ -90,6 +90,11 @@ tr {
 }
 
 .deleteButton {
+  margin-left: 5px;
+  display: none;
+}
+
+.finishTaskButton {
   margin-left: 30%;
   display: none;
 }
