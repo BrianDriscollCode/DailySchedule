@@ -1,10 +1,7 @@
-const input1 = document.getElementsByTagName('INPUT')[0];
-const timeInput1 = document.getElementsByTagName('SELECT')[0];
-const timeInput2 = document.getElementsByTagName('SELECT')[1];
+const taskNameInput = document.getElementsByTagName('INPUT')[0];
+const firstTimeInput = document.getElementsByTagName('SELECT')[0];
+const secondTimeInput = document.getElementsByTagName('SELECT')[1];
 const enter = document.getElementsByTagName('BUTTON')[0];
-// const scheduleCardSection = document.getElementById('scheduleCards');
-// const singleCard = document.querySelectorAll('.singleCard');
-// const buttonLocation = document.querySelectorAll('.timePosition');
 const table = document.getElementById('scheduleTable');
 const timeSection = document.querySelectorAll('#timeSection');
 const inputSection = document.querySelector('#inputSection');
@@ -20,43 +17,42 @@ window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
 });
 
-//take input and call addRow function to add a row
+//take input and call printRow function to add a row
 enter.addEventListener('click', () => {
 
-  if (timeEntryError(timeInput1.value, timeInput2.value) == false) {
-    timeInput2.style.backgroundColor = "red"; //mark error location
-    alert("Times start 3am and end at 2am. Please enter in times in the correct order.");
+  if (timeBackwardsError(firstTimeInput.value, secondTimeInput.value) == false) {
+    firstTimeInput.style.backgroundColor = "white";
+    secondTimeInput.style.backgroundColor = "red"; //mark error location
+    alert("Day starts at 3am and day ends at 2am. Please enter in times in the correct order.");
   }
-  else if (timeOverLappingError(timeInput1.value, timeInput2.value) == false) {
-    timeInput1.style.backgroundColor = "red";
-    timeInput2.style.backgroundColor = "red";
-    alert("Times chosen are overlapping and need to be changed");
+  else if (timeOverLappingError(firstTimeInput.value, secondTimeInput.value) == false) {
+    firstTimeInput.style.backgroundColor = "red";
+    secondTimeInput.style.backgroundColor = "red";
+    alert("Chosen are overlapping or repeating and need to be changed");
   }
   else {
-    timeInput1.style.backgroundColor = "white";
-    timeInput2.style.backgroundColor = "white"; //rectify error location if needed
+    firstTimeInput.style.backgroundColor = "white";
+    secondTimeInput.style.backgroundColor = "white"; //rectify error location if needed
     removeAllRows(); //Remove all rows so they can be reprinted in order depending on starting time
 
-    let taskText = input1.value;
+    let taskText = taskNameInput.value;
     currentTasks[currentRow] = taskText;
 
-    let timeText = `${timeInput1.value} - ${timeInput2.value}`;
+    let timeText = `${firstTimeInput.value} - ${secondTimeInput.value}`;
     currentTimes[currentRow] = timeText;
 
-    startingTimes[currentRow] = `${timeInput1.value}`;
-    endingTimes[currentRow] = `${timeInput2.value}`;
+    startingTime[currentRow] = `${firstTimeInput.value}`;
+    endingTime[currentRow] = `${secondTimeInput.value}`;
 
-    //recalculate task value of new positions -------------->
-    taskScores = calculateTaskValue();
-    console.log(taskScores);
+    //recalculate task value of new positions
+    taskScores = calculateTaskPosition();
 
-    //Final list created and ordered for printing to page
-    createFinalList(currentTasks, currentTimes, taskScores); //objects created
+    //creates the object and orders them for printing to page
+    createFinalList(currentTasks, currentTimes, taskScores);
 
-    //print rows
     for (let i = 0; i <= currentRow; i++) {
 
-        addRow(finalList[i].taskText, finalList[i].timeText, i); //last i is row number
+        printRow(finalList[i].taskText, finalList[i].timeText, i); //last i is row number
 
     }
 
@@ -90,20 +86,13 @@ table.addEventListener('click', (event) => {
   if (event.target.className == 'deleteButton') {
     let chosenDataElement1 = event.target.parentNode;
     let chosenDataElement2 = event.target.parentNode.parentNode;
-    let elementId = chosenDataElement2.id; //get id of row being deleted
 
-    let rowNumber = elementId.slice(9,10); //use row ID to get row Number
-    rowNumber = parseInt(rowNumber); // then convert it to integer
+    let elementId = chosenDataElement2.id; //get id of row being deleted
+    let rowNumber = elementId.slice(9,10); //use row ID to get rowNumber
+    rowNumber = parseInt(rowNumber);
     console.log(rowNumber, "-rowNumber");
 
-    //at this element.rowNumber, put value here
-    //in a for loop, compare value of these strings to see
-    // if they match. *format array information to match output
-    // of .textContent from elements.*
-    //format JOB6am - 11am Delete
-
-
-    let elementText = chosenDataElement2.textContent; //get element text
+    let elementText = chosenDataElement2.textContent;
     let rowFinder; //used to find exact position for unordered arrays for deletion
     console.log(elementText);
 
@@ -117,23 +106,19 @@ table.addEventListener('click', (event) => {
       }
     }
 
-
-    //Deletes Row information from arrays "currentTasks" and "currentTimes
-    //AND "startingTimes", "finalList", and "endingTimes" in cardDatabase.js
+    //Deletes Row information from arrays in cardDatabase.js
     currentTasks.splice(rowFinder, 1);
     currentTimes.splice(rowFinder, 1);
-    startingTimes.splice(rowFinder, 1);
-    endingTimes.splice(rowFinder, 1);
-    finalList.splice(rowNumber, 1); // FIX THIS
+    startingTime.splice(rowFinder, 1);
+    endingTime.splice(rowFinder, 1);
+    finalList.splice(rowNumber, 1);
 
-    //removes the elements from document
     chosenDataElement1.remove();
     chosenDataElement2.remove();
 
     //recalculate the total rows
     currentRow -= 1;
 
-    //Reset ID's for elements left
     for (let i = 1; i < currentTasks.length + 1; i++) {
       let listItems = document.getElementsByTagName('TR')[i];
       let iStringValue = i - 1;
@@ -144,7 +129,7 @@ table.addEventListener('click', (event) => {
     }
 
     //recalculate task value of new positions
-    taskScores = calculateTaskValue();
+    taskScores = calculateTaskPosition();
   }
 
 });

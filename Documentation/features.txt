@@ -15,4 +15,8 @@ Tasks:
 
 Current task:
 
+Refactor code and separate files based on need.
+
 Add cross off functionality
+
+Have 2 tables. 1 for non finished tasks and 1 for finished tasks
