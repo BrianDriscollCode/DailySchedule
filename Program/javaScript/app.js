@@ -153,17 +153,15 @@ table.addEventListener('mouseleave', () => {
 
 table.addEventListener('click', () => {
 
-  if (event.target.className == 'finishTaskButton') {
-    let chosenDataElement1 = event.target.parentNode;
-    let chosenDataElement2 = event.target.parentNode.parentNode;
+    if (event.target.className == 'finishTaskButton') {
+      let chosenDataElement1 = event.target.parentNode;
+      let chosenDataElement2 = event.target.parentNode.parentNode;
 
-    chosenDataElement1.style.backgroundColor = '#677364';
-    chosenDataElement2.style.backgroundColor = '#677364';
+      chosenDataElement1.style.backgroundColor = '#677364';
+      chosenDataElement2.style.backgroundColor = '#677364';
 
-    chosenDataElement1.style.textDecoration = 'line-through';
-    chosenDataElement2.style.textDecoration = 'line-through';
-
-
-  }
+      chosenDataElement1.style.textDecoration = 'line-through';
+      chosenDataElement2.style.textDecoration = 'line-through';
+    }
 
 });

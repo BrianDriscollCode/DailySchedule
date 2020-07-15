@@ -58,14 +58,6 @@ function printRow(taskText, timeText, rowNumberInput) {
 
   cell2.innerHTML += '<button class="finishTaskButton"> Finished </button>';
   cell2.innerHTML += '<button class="deleteButton"> Delete </button>';
-
-
-
-
-
-
-
-
 }
 
 function calculateTaskPosition() {
